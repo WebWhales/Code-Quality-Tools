@@ -1,0 +1,68 @@
+includes:
+  - %rootDir%/../../nunomaduro/larastan/extension.neon
+  - %rootDir%/../../spaze/phpstan-disallowed-calls/extension.neon
+  - %rootDir%/../../spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
+  - %rootDir%/../../spaze/phpstan-disallowed-calls/disallowed-execution-calls.neon
+
+parameters:
+  paths:
+    - %rootDir%/../../../app/
+    - %rootDir%/../../../config/
+    - %rootDir%/../../../routes/
+    - %rootDir%/../../../tests/
+
+  # Level 9 is the highest level
+  level: 8
+
+  disallowedFunctionCalls:
+    -
+      function:
+        - 'dd()'
+        - 'dump()'
+      message: 'function should not be used in production'
+
+  disallowedMethodCalls:
+    -
+      method:
+        - 'Illuminate\Database\Query\Builder::dd()'
+        - 'Illuminate\Database\Query\Builder::dump()'
+        - 'Illuminate\Http\Client\PendingRequest::dd()'
+        - 'Illuminate\Http\Client\PendingRequest::dump()'
+        - 'Illuminate\Http\Concerns\InteractsWithInput::dd()'
+        - 'Illuminate\Http\Concerns\InteractsWithInput::dump()'
+        - 'Illuminate\Support\Carbon::dd()'
+        - 'Illuminate\Support\Carbon::dump()'
+        - 'Illuminate\Support\Stringable::dd()'
+        - 'Illuminate\Support\Stringable::dump()'
+        - 'Illuminate\Support\Traits\EnumeratesValues::dd()'
+        - 'Illuminate\Support\Traits\EnumeratesValues::dump()'
+        - 'Illuminate\Testing\TestResponse::dump()'
+        - 'Illuminate\Testing\TestResponse::dumpHeaders()'
+        - 'Illuminate\Testing\TestResponse::dumpSession()'
+        - 'Illuminate\Testing\TestResponse::dd()'
+        - 'Illuminate\Testing\TestResponse::ddHeaders()'
+        - 'Illuminate\Testing\TestResponse::ddSession()'
+      message: 'method should not be used in production'
+
+  disallowedSuperglobals:
+    -
+      superglobal:
+        - '$_COOKIE'
+        - '$_FILES'
+        - '$_GET'
+        - '$_POST'
+        - '$_REQUEST'
+        - '$_SERVER'
+      message: 'use the Request object as parameter (preferred), the Request facade or the request() helper function instead'
+    -
+      superglobal: '$_SESSION'
+      message: 'use the Session facade (preferred) or the session() helper function instead'
+
+  reportUnmatchedIgnoredErrors: false
+
+  ignoreErrors:
+    - '#PHPDoc tag @mixin contains unknown class [a-zA-Z0-9\\_]+IdeHelper#'
+    - '#Call to an undefined method Illuminate\\Database\\Eloquent\\[a-zA-Z\\\<\>]+::(withTrashed|onlyTrashed|trashed)\(\)#'
+
+  checkGenericClassInNonGenericObjectType: false
+  checkMissingIterableValueType: false
