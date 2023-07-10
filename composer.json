@@ -1,0 +1,21 @@
+{
+  "name": "webwhales/code-quality",
+  "description": "Code Quality tools for Web Whales projects",
+  "authors": [
+    {
+      "name": "redelschaap",
+      "email": "ronald.edelschaap@webwhales.nl"
+    }
+  ],
+  "require": {
+    "php": ">=8.0.2",
+    "nunomaduro/larastan": "*",
+    "spaze/phpstan-disallowed-calls": "*",
+    "laravel/pint": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Webwhales\\CodeQuality\\": "src/"
+    }
+  }
+}

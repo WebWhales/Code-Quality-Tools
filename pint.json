@@ -1,0 +1,107 @@
+{
+    "preset": "laravel",
+    "note": "This preset is based on PHP-CS-Fixer v3.21.",
+    "link": "https://mlocati.github.io/php-cs-fixer-configurator/",
+    "future_rules": {
+        "nullable_type_declaration": true,
+        "type_declaration_spaces": true
+    },
+    "rules": {
+        "Laravel/laravel_phpdoc_alignment": false,
+        "assign_null_coalescing_to_coalesce_equal": true,
+        "binary_operator_spaces": {
+            "operators": {
+                "=": "align",
+                "=>": "align"
+            }
+        },
+        "blank_line_before_statement": {
+            "statements": [
+                "break",
+                "continue",
+                "do",
+                "exit",
+                "for",
+                "foreach",
+                "if",
+                "return",
+                "switch",
+                "throw",
+                "try",
+                "while",
+                "yield",
+                "yield_from"
+            ]
+        },
+        "class_reference_name_casing": true,
+        "combine_consecutive_issets": true,
+        "combine_consecutive_unsets": true,
+        "combine_nested_dirname": true,
+        "comment_to_phpdoc": true,
+        "curly_braces_position": {
+            "allow_single_line_anonymous_functions": true,
+            "allow_single_line_empty_anonymous_classes": true,
+            "anonymous_classes_opening_brace": "same_line",
+            "anonymous_functions_opening_brace": "same_line",
+            "classes_opening_brace": "next_line_unless_newline_at_signature_end",
+            "control_structures_opening_brace": "same_line",
+            "functions_opening_brace": "next_line_unless_newline_at_signature_end"
+        },
+        "date_time_create_from_format_call": true,
+        "dir_constant": true,
+        "echo_tag_syntax": true,
+        "empty_loop_body": true,
+        "empty_loop_condition": true,
+        "ereg_to_preg": true,
+        "fopen_flag_order": true,
+        "get_class_to_class_keyword": true,
+        "global_namespace_import": {
+            "import_classes": true,
+            "import_constants": true,
+            "import_functions": true
+        },
+        "is_null": true,
+        "no_unneeded_import_alias": true,
+        "no_useless_concat_operator": true,
+        "no_useless_else": true,
+        "no_useless_nullsafe_operator": true,
+        "nullable_type_declaration_for_default_null_value": true,
+        "ordered_imports": {
+            "imports_order": [
+                "const",
+                "class",
+                "function"
+            ],
+            "sort_algorithm": "alpha"
+        },
+        "php_unit_construct": true,
+        "php_unit_data_provider_static": true,
+        "php_unit_dedicate_assert": true,
+        "php_unit_dedicate_assert_internal_type": true,
+        "php_unit_method_casing": {
+            "case": "snake_case"
+        },
+        "php_unit_set_up_tear_down_visibility": true,
+        "phpdoc_align": {
+            "align": "vertical"
+        },
+        "phpdoc_line_span": true,
+        "phpdoc_param_order": true,
+        "phpdoc_summary": true,
+        "phpdoc_trim_consecutive_blank_line_separation": true,
+        "phpdoc_var_annotation_correct_order": true,
+        "regular_callable_call": true,
+        "return_assignment": true,
+        "semicolon_after_instruction": true,
+        "simple_to_complex_string_variable": true,
+        "simplified_if_return": true,
+        "simplified_null_return": true,
+        "single_import_per_statement": true,
+        "single_line_comment_spacing": true,
+        "single_line_empty_body": true,
+        "single_trait_insert_per_statement": true,
+        "switch_continue_to_break": true,
+        "ternary_to_elvis_operator": true,
+        "ternary_to_null_coalescing": true
+    }
+}
