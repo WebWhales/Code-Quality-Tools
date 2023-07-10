@@ -1,6 +1,6 @@
 {
-  "name": "webwhales/code-quality",
-  "description": "Code Quality tools for Web Whales projects",
+  "name": "webwhales/code-quality-tools",
+  "description": "Code quality tools for Web Whales projects",
   "authors": [
     {
       "name": "redelschaap",
