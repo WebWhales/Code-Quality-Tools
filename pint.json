@@ -10,9 +10,23 @@
         "Laravel/laravel_phpdoc_alignment": false,
         "assign_null_coalescing_to_coalesce_equal": true,
         "binary_operator_spaces": {
+            "default": "single_space",
             "operators": {
-                "=": "align",
-                "=>": "align"
+                "=": "align_single_space_minimal",
+                "=>": "align_single_space_minimal",
+                "??=": "align_single_space_minimal",
+                ".=": "align_single_space_minimal",
+                "+=": "align_single_space_minimal",
+                "-=": "align_single_space_minimal",
+                "*=": "align_single_space_minimal",
+                "/=": "align_single_space_minimal",
+                "%=": "align_single_space_minimal",
+                "**=": "align_single_space_minimal",
+                "&=": "align_single_space_minimal",
+                "|=": "align_single_space_minimal",
+                "^=": "align_single_space_minimal",
+                "<<=": "align_single_space_minimal",
+                ">>=": "align_single_space_minimal"
             }
         },
         "blank_line_before_statement": {
