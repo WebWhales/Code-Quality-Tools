@@ -10,7 +10,7 @@
   "require": {
     "php": ">=8.0.2",
     "barryvdh/laravel-ide-helper": "*",
-    "nunomaduro/larastan": "*",
+    "larastan/larastan": "*",
     "spaze/phpstan-disallowed-calls": "*",
     "laravel/pint": "*"
   },
