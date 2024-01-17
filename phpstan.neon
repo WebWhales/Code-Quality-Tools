@@ -6,9 +6,7 @@ includes:
 
 parameters:
   paths:
-    - %rootDir%/../../../app/
-    - %rootDir%/../../../config/
-    - %rootDir%/../../../routes/
+    - %rootDir%/../../../src/
     - %rootDir%/../../../tests/
 
   # Level 9 is the highest level
