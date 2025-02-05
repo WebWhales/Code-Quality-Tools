@@ -10,6 +10,8 @@
   "require": {
     "php": ">=8.0.2",
     "larastan/larastan": "*",
+    "phpstan/extension-installer": "*",
+    "phpstan/phpstan-phpunit": "*",
     "spaze/phpstan-disallowed-calls": "*",
     "laravel/pint": "*"
   },

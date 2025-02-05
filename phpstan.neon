@@ -1,6 +1,4 @@
 includes:
-  - %rootDir%/../../larastan/larastan/extension.neon
-  - %rootDir%/../../spaze/phpstan-disallowed-calls/extension.neon
   - %rootDir%/../../spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
   - %rootDir%/../../spaze/phpstan-disallowed-calls/disallowed-execution-calls.neon
 
@@ -11,6 +9,9 @@ parameters:
 
   # Level 9 is the highest level
   level: 8
+
+  checkOctaneCompatibility: true
+  checkModelProperties: true
 
   disallowedFunctionCalls:
     -
@@ -61,6 +62,5 @@ parameters:
   ignoreErrors:
     - '#PHPDoc tag @mixin contains unknown class [a-zA-Z0-9\\_]+IdeHelper#'
     - '#Call to an undefined method Illuminate\\Database\\Eloquent\\[a-zA-Z\\\<\>]+::(withTrashed|onlyTrashed|trashed)\(\)#'
-
-  checkGenericClassInNonGenericObjectType: false
-  checkMissingIterableValueType: false
+    - identifier: missingType.iterableValue
+    - identifier: missingType.generics
