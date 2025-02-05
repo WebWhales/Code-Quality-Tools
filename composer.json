@@ -11,6 +11,8 @@
     "php": ">=8.0.2",
     "barryvdh/laravel-ide-helper": "*",
     "larastan/larastan": "*",
+    "phpstan/extension-installer": "*",
+    "phpstan/phpstan-phpunit": "*",
     "spaze/phpstan-disallowed-calls": "*",
     "laravel/pint": "*"
   },
