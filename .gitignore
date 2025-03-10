@@ -1,3 +1,5 @@
 /.idea
+/phpstan
 /vendor
+.phpunit.cache
 composer.lock

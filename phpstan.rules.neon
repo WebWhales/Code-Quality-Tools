@@ -1,0 +1,16 @@
+parameters:
+    laravelFactoryModelDocBlock: true
+    laravelFactoryModelProperty: true
+
+parametersSchema:
+    laravelFactoryModelDocBlock: bool()
+    laravelFactoryModelProperty: bool()
+
+services:
+    -
+        class: Webwhales\CodeQualityTools\Rules\FactoryModelRule
+        arguments:
+            testDocBlock: %laravelFactoryModelDocBlock%
+            testProperty: %laravelFactoryModelProperty%
+        tags:
+            - phpstan.rules.rule

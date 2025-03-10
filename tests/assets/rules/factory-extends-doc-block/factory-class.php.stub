@@ -1,0 +1,16 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Example;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ExampleFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string|null
+     */
+    protected $model = Example::class;
+}
