@@ -8,7 +8,7 @@ parametersSchema:
 
 services:
     -
-        class: Webwhales\CodeQualityTools\Rules\FactoryModelRule
+        class: WebWhales\CodeQualityTools\Rules\FactoryModelRule
         arguments:
             testDocBlock: %laravelFactoryModelDocBlock%
             testProperty: %laravelFactoryModelProperty%
