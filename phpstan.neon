@@ -7,6 +7,7 @@ parameters:
   paths:
     - %rootDir%/../../../app/
     - %rootDir%/../../../config/
+    - %rootDir%/../../../database/
     - %rootDir%/../../../routes/
     - %rootDir%/../../../tests/
 
