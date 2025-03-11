@@ -85,9 +85,9 @@ class FactoryModelRule implements Rule
             $errors[] = RuleErrorBuilder::message(
                 $docComment && preg_match($patternFactoryModel, $docComment->getText())
                     ?
-                    "Factory class has a doc block for the wrong model. Use \"@extends \\Illuminate\\Database\\Eloquent\\Factories\\Factory<App\\Models\\$actualModelName>\" instead."
+                    "Factory class has a doc block for the wrong model. Use \"@extends \\Illuminate\\Database\\Eloquent\\Factories\\Factory<\\App\\Models\\$actualModelName>\" instead."
                     :
-                    "Factory class should have a doc block with \"@extends \\Illuminate\\Database\\Eloquent\\Factories\\Factory<App\\Models\\$actualModelName>\"."
+                    "Factory class should have a doc block with \"@extends \\Illuminate\\Database\\Eloquent\\Factories\\Factory<\\App\\Models\\$actualModelName>\"."
             )
                 ->identifier('factories.modelDocBlock')
                 ->build();

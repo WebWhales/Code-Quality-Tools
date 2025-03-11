@@ -2,6 +2,7 @@
 
 namespace WebWhales\CodeQualityTools\Tests;
 
+use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use WebWhales\CodeQualityTools\Rules\FactoryModelRule;
@@ -9,7 +10,7 @@ use WebWhales\CodeQualityTools\Rules\FactoryModelRule;
 #[CoversClass(FactoryModelRule::class)]
 class FactoryModelRuleTest extends RuleTestCase
 {
-    protected function getRule(): \PHPStan\Rules\Rule
+    protected function getRule(): Rule
     {
         return new FactoryModelRule(true, true);
     }
@@ -24,7 +25,7 @@ class FactoryModelRuleTest extends RuleTestCase
             [
                 [
                     // asserted error message
-                    'Factory class should have a doc block with "@extends \Illuminate\Database\Eloquent\Factories\Factory<App\Models\Example>".',
+                    'Factory class should have a doc block with "@extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Example>".',
                     // asserted error line
                     8,
                 ],
@@ -59,7 +60,7 @@ class FactoryModelRuleTest extends RuleTestCase
             [__DIR__ . '/assets/rules/factory-extends-doc-block/factory-class-for-another-model.php.stub'],
             [
                 [
-                    'Factory class should have a doc block with "@extends \Illuminate\Database\Eloquent\Factories\Factory<App\Models\AnotherModel>".',
+                    'Factory class should have a doc block with "@extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AnotherModel>".',
                     8,
                 ],
             ]);
@@ -74,7 +75,7 @@ class FactoryModelRuleTest extends RuleTestCase
             [__DIR__ . '/assets/rules/factory-extends-doc-block/factory-class-for-another-model-with-incorrect-docblock.php.stub'],
             [
                 [
-                    'Factory class has a doc block for the wrong model. Use "@extends \Illuminate\Database\Eloquent\Factories\Factory<App\Models\AnotherModel>" instead.',
+                    'Factory class has a doc block for the wrong model. Use "@extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AnotherModel>" instead.',
                     11,
                 ],
             ]);
