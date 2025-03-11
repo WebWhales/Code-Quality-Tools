@@ -65,7 +65,7 @@ parameters:
 
   ignoreErrors:
     - '#PHPDoc tag @mixin contains unknown class [a-zA-Z0-9\\_]+IdeHelper#'
-    - '#Call to an undefined method Illuminate\\Database\\Eloquent\\[a-zA-Z\\\<\>]+::(withTrashed|onlyTrashed|trashed)\(\)#'
+    - '#Call to an undefined method Illuminate\\Database\\Eloquent\\[a-zA-Z\\\<\>]+::(withTrashed|withoutTrashed|onlyTrashed|trashed)\(\)#'
     - '#definition\(\) should be compatible with return type \(array<model property of#'
     - identifier: missingType.iterableValue
     - identifier: missingType.generics
