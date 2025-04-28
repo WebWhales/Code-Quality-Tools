@@ -8,6 +8,7 @@ You can install the code quality tools using the following commands:
 
 ```shell
 composer config repositories.code-quality-tools github https://github.com/WebWhales/Code-Quality-Tools
+composer config --no-plugins allow-plugins.phpstan/extension-installer true
 composer remove --dev laravel/pint --no-scripts -q
 composer require --dev webwhales/code-quality-tools:dev-master
 composer config scripts.check.0 "composer pint"
