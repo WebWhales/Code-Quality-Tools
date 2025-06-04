@@ -1,6 +1,6 @@
 {
     "preset": "laravel",
-    "note": "This preset is based on PHP-CS-Fixer v3.21.",
+    "note": "DO NOT CHANGE! This file will be overwritten when updating composer package. This preset is based on PHP-CS-Fixer v3.21.",
     "link": "https://mlocati.github.io/php-cs-fixer-configurator/",
     "future_rules": {
         "nullable_type_declaration": true,
