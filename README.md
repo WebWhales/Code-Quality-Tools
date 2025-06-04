@@ -7,6 +7,7 @@ Our Code Quality Toolbox contains a number of tools to improve code style and ov
 You can install the code quality tools using the following commands:
 
 ```shell
+composer config scripts.post-autoload-dump.-1 "@php -r \"copy('vendor/webwhales/code-quality-tools/pint.json', 'pint.json');\""
 composer config repositories.code-quality-tools github https://github.com/WebWhales/Code-Quality-Tools
 composer config --no-plugins allow-plugins.phpstan/extension-installer true
 composer remove --dev laravel/pint --no-scripts -q
@@ -17,8 +18,8 @@ composer config scripts.ide.0 "@php artisan ide-helper:generate"
 composer config scripts.ide.1 "@php artisan ide-helper:meta"
 composer config scripts.ide.2 "@php artisan ide-helper:models -M"
 composer config scripts.phpstan.0 "phpstan --memory-limit=-1"
-composer config scripts.pint.0 "pint --config vendor/webwhales/code-quality-tools/pint.json"
-composer config scripts.pint-dirty.0 "pint --config vendor/webwhales/code-quality-tools/pint.json --dirty"
+composer config scripts.pint.0 "pint"
+composer config scripts.pint-dirty.0 "pint --dirty"
 composer config scripts.tests.0 "php artisan test"
 ```
 
