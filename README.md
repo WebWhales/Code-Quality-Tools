@@ -36,7 +36,6 @@ Our Code Quality Toolbox contains a number of tools to improve code style and ov
     composer config scripts.phpstan.0 "phpstan --memory-limit=-1"
     composer config scripts.pint.0 "pint"
     composer config scripts.pint-dirty.0 "pint --dirty"
-    composer config scripts.tests.0 "php artisan test"
     ```
 
 ### Laravel Pint (code style fixer)
