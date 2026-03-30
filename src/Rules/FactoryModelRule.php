@@ -5,8 +5,12 @@ namespace WebWhales\CodeQualityTools\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\ObjectType;
+use function dump;
 use function preg_match;
 use function preg_replace;
 
@@ -15,7 +19,13 @@ use function preg_replace;
  */
 class FactoryModelRule implements Rule
 {
-    public function __construct(private bool $testDocBlock, private bool $testProperty) { }
+    public function __construct(
+        private bool                         $testDocBlock,
+        private bool                         $testProperty,
+        private \PHPStan\Type\FileTypeMapper $fileTypeMapper
+    )
+    {
+    }
 
     public function getNodeType(): string
     {
@@ -33,11 +43,11 @@ class FactoryModelRule implements Rule
 
         $errors = [];
 
-        $factoryModelName = preg_replace('/Factory$/', '', $node->name->toString());
+        $factoryModelName = 'App\Models\\' . preg_replace('/Factory$/', '', $node->name->toString());
         $actualModelName  = $this->getActualModelName($node) ?: $factoryModelName;
 
         if ($this->testDocBlock) {
-            $this->testDockBlock($node, $factoryModelName, $actualModelName, $errors);
+            $this->testDockBlock($node, $scope, $actualModelName, $errors);
         }
 
         if ($this->testProperty) {
@@ -63,31 +73,62 @@ class FactoryModelRule implements Rule
             return null;
         }
 
-        $parts = $defaultValue->getParts() ?? explode('\\', $defaultValue->name);
-
-        return array_slice($parts, -1)[0];
+        return $defaultValue->name;
     }
 
     private function testDockBlock(
         Class_ $node,
-        string $factoryModelName,
+        Scope  $scope,
         string $actualModelName,
         array  &$errors
     ): void {
         $docComment = $node->getDocComment();
 
-        $patternActualModel =
-            "/@extends (\\\\Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\)?Factory<.+\\\\$actualModelName>/";
-        $patternFactoryModel =
-            "/@extends (\\\\Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\)?Factory<.+\\\\$factoryModelName>/";
+        $hasCorrectModel = false;
+        $hasAnyModel     = false;
 
-        if (! $docComment || ! preg_match($patternActualModel, $docComment->getText())) {
+        if ($docComment) {
+            $resolvedPhpDoc = $this->fileTypeMapper->getResolvedPhpDoc(
+                $scope->getFile(),
+                $node->namespacedName->name,
+                null,
+                null,
+                $docComment->getText()
+            );
+
+            $extendsTags = $resolvedPhpDoc->getExtendsTags();
+
+            foreach ($extendsTags as $extendsTag) {
+                $type = $extendsTag->getType();
+
+                if (! $type instanceof GenericObjectType || $type->getClassName() !== 'Illuminate\Database\Eloquent\Factories\Factory') {
+                    continue;
+                }
+
+                $types = $type->getTypes();
+
+                if (empty($types)) {
+                    continue;
+                }
+
+                $hasAnyModel = true;
+
+                if ($types[0] instanceof ObjectType) {
+                    $className = ltrim($types[0]->getClassName(), '\\');
+                    if ($className === $actualModelName) {
+                        $hasCorrectModel = true;
+                    }
+                }
+            }
+        }
+
+        if (! $hasCorrectModel) {
             $errors[] = RuleErrorBuilder::message(
-                $docComment && preg_match($patternFactoryModel, $docComment->getText())
+                $hasAnyModel
                     ?
-                    "Factory class has a doc block for the wrong model. Use \"@extends \\Illuminate\\Database\\Eloquent\\Factories\\Factory<\\App\\Models\\$actualModelName>\" instead."
+                    "Factory class has a doc block for the wrong model. Use \"@extends \\Illuminate\\Database\\Eloquent\\Factories\\Factory<\\$actualModelName>\" instead."
                     :
-                    "Factory class should have a doc block with \"@extends \\Illuminate\\Database\\Eloquent\\Factories\\Factory<\\App\\Models\\$actualModelName>\"."
+                    "Factory class should have a doc block with \"@extends \\Illuminate\\Database\\Eloquent\\Factories\\Factory<\\$actualModelName>\"."
             )
                 ->identifier('factories.modelDocBlock')
                 ->build();

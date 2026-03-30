@@ -12,7 +12,11 @@ class FactoryModelRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return new FactoryModelRule(true, true);
+        return new FactoryModelRule(
+            true,
+            true,
+            self::getContainer()->getByType(\PHPStan\Type\FileTypeMapper::class)
+        );
     }
 
     public function test_rule(): void
@@ -43,6 +47,21 @@ class FactoryModelRuleTest extends RuleTestCase
         // each error consists of the asserted error message, and the asserted error file line
         $this->analyse(
             [__DIR__ . '/assets/rules/factory-extends-doc-block/factory-class-with-docblock.php.stub'],
+            [
+                [
+                    'The factory class\'s model property can be omitted.', // asserted error message
+                    18, // asserted error line
+                ],
+            ]);
+    }
+
+    public function test_rule_for_factory_with_docblock_and_class_imports(): void
+    {
+        // first argument: path to the example file that contains some errors that should be reported by MyRule
+        // second argument: an array of expected errors,
+        // each error consists of the asserted error message, and the asserted error file line
+        $this->analyse(
+            [__DIR__ . '/assets/rules/factory-extends-doc-block/factory-class-with-docblock-and-class-imports.php.stub'],
             [
                 [
                     'The factory class\'s model property can be omitted.', // asserted error message
