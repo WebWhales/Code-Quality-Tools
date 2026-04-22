@@ -66,6 +66,7 @@ parameters:
   ignoreErrors:
     - '#PHPDoc tag @mixin contains unknown class [a-zA-Z0-9\\_]+IdeHelper#'
     - '#Call to an undefined method Illuminate\\Database\\Eloquent\\[a-zA-Z\\\<\>]+::(withTrashed|withoutTrashed|onlyTrashed|trashed)\(\)#'
+    - '#Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection<(int|string|\(int\|string\)), ?Illuminate\\Database\\Eloquent\\Model>::map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, ?(int|string|int\|string|\(int\|string\))\)#'
     - '#definition\(\) should be compatible with return type \(array<model property of#'
     - identifier: missingType.iterableValue
     - identifier: missingType.generics
