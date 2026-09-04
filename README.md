@@ -14,13 +14,16 @@ Our Code Quality Toolbox contains a number of tools to improve code style and ov
     Resulting in the following lines (the rest of the `post-autoload-dump` commands may be different):
 
     ```
-        "scripts": {
-            "post-autoload-dump": [
-                "@php -r \"copy('vendor/webwhales/code-quality-tools/pint.json', 'pint.json');\"",
-                "@php -r \"copy('vendor/webwhales/code-quality-tools/rector.dist.php', 'rector.php');\"",
-                "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-                "@php artisan package:discover --ansi"
-            ],
+    "scripts": {
+        ...
+        "post-autoload-dump": [
+            "@php -r \"copy('vendor/webwhales/code-quality-tools/pint.json', 'pint.json');\"",
+            "@php -r \"copy('vendor/webwhales/code-quality-tools/rector.dist.php', 'rector.php');\"",
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+       ...
+    }
     ```
 
 2. Install the code quality tools using the following commands:
@@ -76,4 +79,31 @@ run Larastan using the following command from your Docker web container:
 
 ```shell
 composer phpstan
+```
+
+### Rector (code refactoring)
+
+Rector is a tool that can automatically refactor your code to improve its quality and maintainability. You can run Rector using the following command from your Docker web container:
+
+```shell
+composer rector
+```
+
+To perform a dry run (without making any changes), you can use the following command:
+
+```shell
+composer rector-dry-run
+```
+
+#### local customization options
+
+You can customize the behavior of Rector by creating a `rector.custom.php` or `rector.local.php` file in the root of 
+your project. The `rector.custom.php` is supposed to be committed to the repository, while the `rector.local.php` is 
+for local changes that should not be committed. These files should return a callable that takes a 
+`Rector\Configuration\RectorConfigBuilder` as an argument. For example:
+
+```php
+use Rector\Configuration\RectorConfigBuilder;
+
+return fn(RectorConfigBuilder $builder) => $builder->withParallel(1, 2);
 ```
