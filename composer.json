@@ -13,6 +13,7 @@
     "larastan/larastan": "*",
     "phpstan/extension-installer": "*",
     "phpstan/phpstan-phpunit": "*",
+    "rector/rector": "*",
     "spaze/phpstan-disallowed-calls": "*",
     "laravel/pint": "*"
   },
