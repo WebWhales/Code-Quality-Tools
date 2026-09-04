@@ -4,18 +4,20 @@ Our Code Quality Toolbox contains a number of tools to improve code style and ov
 
 ### First time set up (when setting up a project)
 
-1. Add this line in the `scripts.post-autoload-dump` setting in the `composer.json` file:
+1. Add these lines in the `scripts.post-autoload-dump` setting in the `composer.json` file:
 
-    ```json
-    "@php -r \"copy('vendor/webwhales/code-quality-tools/pint.json', 'pint.json');\""
+    ```
+    "@php -r \"copy('vendor/webwhales/code-quality-tools/pint.json', 'pint.json');\"",
+    "@php -r \"copy('vendor/webwhales/code-quality-tools/rector.dist.php', 'rector.php');\"",
     ```
 
     Resulting in the following lines (the rest of the `post-autoload-dump` commands may be different):
 
-    ```json
+    ```
         "scripts": {
             "post-autoload-dump": [
                 "@php -r \"copy('vendor/webwhales/code-quality-tools/pint.json', 'pint.json');\"",
+                "@php -r \"copy('vendor/webwhales/code-quality-tools/rector.dist.php', 'rector.php');\"",
                 "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
                 "@php artisan package:discover --ansi"
             ],
@@ -36,6 +38,9 @@ Our Code Quality Toolbox contains a number of tools to improve code style and ov
     composer config scripts.phpstan.0 "phpstan --memory-limit=-1"
     composer config scripts.pint.0 "pint"
     composer config scripts.pint-dirty.0 "pint --dirty"
+    composer config scripts.rector.0 "rector"
+    composer config scripts.rector-dry-run.0 "rector --dry-run"
+    rm -f phpstan.neon
     ```
 
 ### Laravel Pint (code style fixer)
