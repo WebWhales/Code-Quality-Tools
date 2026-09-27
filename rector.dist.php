@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\SafeDeclareStrictTypesRector;
 
 $rectorConfig = RectorConfig::configure()
@@ -22,6 +23,7 @@ $rectorConfig = RectorConfig::configure()
         earlyReturn: true,
     )
     ->withSkip([
+        CatchExceptionNameMatchingTypeRector::class,
         SafeDeclareStrictTypesRector::class,
     ])
     ->withPhpSets();
