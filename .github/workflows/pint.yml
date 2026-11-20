@@ -6,6 +6,8 @@ name: Laravel Pint
 #   jobs:
 #     pint:
 #       uses: WebWhales/Code-Quality-Tools/.github/workflows/pint.yml@master
+#       with:
+#         php-version: '8.5'
 #
 # The Pint version is read from the calling project's composer.lock (falls back to the latest
 # version), and the project's pint.json is used when present, otherwise the shared pint.json
@@ -15,9 +17,9 @@ on:
   workflow_call:
     inputs:
       php-version:
-        description: The PHP version used to run Laravel Pint
+        description: The PHP version used to run Laravel Pint (the project's PHP version, e.g. '8.4')
         type: string
-        default: '8.5'
+        required: true
       working-directory:
         description: The directory of the Laravel project, relative to the repository root
         type: string

@@ -88,10 +88,13 @@ on:
 jobs:
   pint:
     uses: WebWhales/Code-Quality-Tools/.github/workflows/pint.yml@master
+    with:
+      php-version: '8.5'
 ```
 
-Optional inputs (via `with:`): `php-version` (default `8.5`) and `working-directory` (default `.`, for projects that
-do not live in the repository root).
+Inputs (via `with:`):
+* `php-version` (required): the PHP version of your project.
+* `working-directory` (optional, default `.`): for projects that do not live in the repository root.
 
 ### Larastan (static analysis)
 
