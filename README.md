@@ -89,7 +89,7 @@ jobs:
   pint:
     runs-on: ubuntu-latest
     steps:
-      - uses: WebWhales/Code-Quality-Tools/.github/actions/pint@master
+      - uses: WebWhales/Code-Quality-Tools/actions/pint@master
         with:
           php-version: '8.5'
 ```
