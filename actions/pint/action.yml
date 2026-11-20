@@ -37,17 +37,25 @@ runs:
         version=$(jq -r '[.packages, .["packages-dev"]] | add | .[] | select(.name == "laravel/pint") | .version | ltrimstr("v")' composer.lock 2>/dev/null || true)
         if [ -z "$version" ]; then
           echo "::warning::laravel/pint not found in composer.lock, using the latest version"
-          echo "tool=pint" >> "$GITHUB_OUTPUT"
-        else
-          echo "tool=pint:$version" >> "$GITHUB_OUTPUT"
         fi
+        echo "version=$version" >> "$GITHUB_OUTPUT"
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ inputs.php-version }}
         coverage: none
-        tools: ${{ steps.pint-version.outputs.tool }}
+        tools: composer
+
+    # Installed with Composer instead of setup-php's "tools", because older Pint releases
+    # (e.g. 1.21.0) have no pint.phar release asset to download.
+    - name: Install Laravel Pint
+      shell: bash
+      env:
+        PINT_VERSION: ${{ steps.pint-version.outputs.version }}
+      run: |
+        composer global require --no-interaction --no-progress "laravel/pint${PINT_VERSION:+:$PINT_VERSION}"
+        composer global config bin-dir --absolute 2>/dev/null >> "$GITHUB_PATH"
 
     - name: Download Laravel Pint configuration
       shell: bash
