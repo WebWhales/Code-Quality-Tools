@@ -72,11 +72,11 @@ You can also configure a file watcher in your IDE to automatically run the forma
     * Advanced Options > Trigger the watcher regardless of syntax errors: `not checked`
     * Advanced Options > Show console: `On error`
 
-#### GitHub Actions (reusable workflow)
+#### GitHub Actions
 
-This repository provides a reusable workflow that checks the code style with Laravel Pint. It uses the Pint version
-from your project's `composer.lock` and your project's `pint.json` (falling back to the `pint.json` in this
-repository). Add it to your project in `.github/workflows/coding-standards.yml`:
+This repository provides a composite action that checks the code style with Laravel Pint. It checks out your
+repository, uses the Pint version from your project's `composer.lock` and your project's `pint.json` (falling back to
+the `pint.json` in this repository). Add it to your project in `.github/workflows/coding-standards.yml`:
 
 ```yaml
 name: Coding Standards
@@ -87,10 +87,14 @@ on:
 
 jobs:
   pint:
-    uses: WebWhales/Code-Quality-Tools/.github/workflows/pint.yml@master
-    with:
-      php-version: '8.5'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: WebWhales/Code-Quality-Tools/.github/actions/pint@master
+        with:
+          php-version: '8.5'
 ```
+
+Keep the job ID `pint`: the resulting check is named `pint`, which is what the required status checks expect.
 
 Inputs (via `with:`):
 * `php-version` (required): the PHP version of your project.
