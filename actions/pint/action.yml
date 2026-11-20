@@ -1,0 +1,60 @@
+name: Laravel Pint
+description: Checks the code style of a Laravel project with Laravel Pint
+
+# Usage (in the calling repository's workflow):
+#
+#   jobs:
+#     pint:
+#       runs-on: ubuntu-latest
+#       steps:
+#         - uses: WebWhales/Code-Quality-Tools/actions/pint@master
+#           with:
+#             php-version: '8.5'
+#
+# The action checks out the repository itself. The Pint version is read from the project's
+# composer.lock (falls back to the latest version), and the project's pint.json is used when
+# present, otherwise the shared pint.json from this repository.
+
+inputs:
+  php-version:
+    description: The PHP version used to run Laravel Pint (the project's PHP version, e.g. '8.4')
+    required: true
+  working-directory:
+    description: The directory of the Laravel project, relative to the repository root
+    required: false
+    default: '.'
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v7
+
+    - name: Get Laravel Pint version from composer.lock
+      id: pint-version
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        version=$(jq -r '[.packages, .["packages-dev"]] | add | .[] | select(.name == "laravel/pint") | .version | ltrimstr("v")' composer.lock 2>/dev/null || true)
+        if [ -z "$version" ]; then
+          echo "::warning::laravel/pint not found in composer.lock, using the latest version"
+          echo "tool=pint" >> "$GITHUB_OUTPUT"
+        else
+          echo "tool=pint:$version" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.php-version }}
+        coverage: none
+        tools: ${{ steps.pint-version.outputs.tool }}
+
+    - name: Download Laravel Pint configuration
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: test -f pint.json || wget -O pint.json https://raw.githubusercontent.com/WebWhales/Code-Quality-Tools/master/pint.json
+
+    - name: Run Laravel Pint
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: pint --test -v
