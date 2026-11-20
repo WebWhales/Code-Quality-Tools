@@ -72,6 +72,27 @@ You can also configure a file watcher in your IDE to automatically run the forma
     * Advanced Options > Trigger the watcher regardless of syntax errors: `not checked`
     * Advanced Options > Show console: `On error`
 
+#### GitHub Actions (reusable workflow)
+
+This repository provides a reusable workflow that checks the code style with Laravel Pint. It uses the Pint version
+from your project's `composer.lock` and your project's `pint.json` (falling back to the `pint.json` in this
+repository). Add it to your project in `.github/workflows/coding-standards.yml`:
+
+```yaml
+name: Coding Standards
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  pint:
+    uses: WebWhales/Code-Quality-Tools/.github/workflows/pint.yml@master
+```
+
+Optional inputs (via `with:`): `php-version` (default `8.5`) and `working-directory` (default `.`, for projects that
+do not live in the repository root).
+
 ### Larastan (static analysis)
 
 Larastan is a static analysis tool built on top of PHPStan to help analyze code and prevent bugs. You can

@@ -1,0 +1,60 @@
+name: Laravel Pint
+
+# Reusable workflow that checks the code style of a Laravel project with Laravel Pint.
+# Usage (in the calling repository's workflow):
+#
+#   jobs:
+#     pint:
+#       uses: WebWhales/Code-Quality-Tools/.github/workflows/pint.yml@master
+#
+# The Pint version is read from the calling project's composer.lock (falls back to the latest
+# version), and the project's pint.json is used when present, otherwise the shared pint.json
+# from this repository.
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: The PHP version used to run Laravel Pint
+        type: string
+        default: '8.5'
+      working-directory:
+        description: The directory of the Laravel project, relative to the repository root
+        type: string
+        default: '.'
+
+jobs:
+
+  pint:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Get Laravel Pint version from composer.lock
+        id: pint-version
+        run: |
+          version=$(jq -r '[.packages, .["packages-dev"]] | add | .[] | select(.name == "laravel/pint") | .version | ltrimstr("v")' composer.lock 2>/dev/null || true)
+          if [ -z "$version" ]; then
+            echo "::warning::laravel/pint not found in composer.lock, using the latest version"
+            echo "tool=pint" >> "$GITHUB_OUTPUT"
+          else
+            echo "tool=pint:$version" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php-version }}
+          coverage: none
+          tools: ${{ steps.pint-version.outputs.tool }}
+
+      - name: Download Laravel Pint configuration
+        run: test -f pint.json || wget -O pint.json https://raw.githubusercontent.com/WebWhales/Code-Quality-Tools/master/pint.json
+
+      - name: Run Laravel Pint
+        run: pint --test -v
